@@ -37,8 +37,8 @@ const session = require('express-session');
 /**
  * Mongoose database URL. 
  */
-// const url = "mongodb://10.192.0.3:27017/pdma"; // private IP address of VM hosting MongoDB
-const url = "mongodb://127.0.0.1:27017/pdma";
+const url = "mongodb://10.192.0.3:27017/pdma"; // private IP address of VM hosting MongoDB
+// const url = "mongodb://127.0.0.1:27017/pdma";
 
 /**
  * Configure Mongoose.
@@ -66,6 +66,18 @@ const { db, incrementCRUDCounter, signupUser, getUser } = require("./firestoreHe
  * @const
  */
 const { checkAuthentication } = require("./helper");
+
+/**
+ * The Express router instance for managing driver-related routes.
+ * @type {Router}
+ */
+const driversRouter = require("./routers/drivers");
+
+/**
+ * The Express router instance for managing package-related routes.
+ * @type {Router}
+ */
+const packagesRouter = require("./routers/packages");
 
 /**
  * The Express router instance for managing driver-related RESTful API endpoints.
@@ -154,7 +166,19 @@ app.use(express.static("assets/images"));
  */
 app.use(express.static("assets"));
 
-app.use(express.static("./dist/33251282-a3/browser"));
+/**
+ * Routes for managing drivers.
+ * @name driversRouter
+ * @function
+ */
+app.use("/33251282/Zhi'En/drivers", driversRouter);
+
+/**
+ * Routes for managing packages.
+ * @name packagesRouter
+ * @function
+ */
+app.use("/33251282/Zhi'En/packages", packagesRouter);
 
 /**
  * Routes for managing drivers API endpoints.
