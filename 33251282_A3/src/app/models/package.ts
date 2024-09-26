@@ -1,5 +1,3 @@
-import { ObjectId } from 'mongodb';
-
 export class Package {
     id: string;
     title: string;
@@ -8,7 +6,7 @@ export class Package {
     description: string;
     createdAt: Date;
     isAllocated: boolean;
-    driverId: ObjectId;
+    driverId: string;
 
     constructor() {
         this.id = '';
@@ -18,6 +16,6 @@ export class Package {
         this.description = '';
         this.createdAt = new Date();
         this.isAllocated = true;
-        this.driverId = new ObjectId('');
+        this.driverId = '';
     }
 }

@@ -11,12 +11,6 @@
 const express = require("express");
 
 /**
- * Path module.
- * @const
- */
-const path = require("path");
-
-/**
  * EJS module.
  * @const
  */
@@ -178,138 +172,9 @@ app.use("/33251282/Zhi'En/api/v1/packages", packagesAPIRouter);
 app.use("/33251282/Zhi'En/api/v1", authAPIRouter);
 
 /**
- * Set the HTML engine to EJS for rendering views.
- * @name engine
- * @function
- * @param {string} ext - The file extension to use
- * @param {function} callback - The render function
- */
-app.engine("html", ejs.renderFile); 
-
-/**
- * Set the view engine to HTML (EJS).
- * @name setViewEngine
- * @function
- * @param {string} engine - The view engine to use
- */
-app.set("view engine", "html");
-
-/**
  * Starts the Express server on the specified port.
  * @name listen
  * @function
  * @param {number} port - The port number to listen on
  */
 app.listen(PORT_NUMBER);
-
-/**
- * Redirects root requests with no pathname to the application home page.
- * @name rootRedirect
- * @function
- * @param {string} path - The request path
- * @param {function} callback - The function to handle the request
- */
-app.get("/", function(req, res) {
-    res.redirect("/33251282/Zhi'En");
-})
-
-/**
- * Renders the application home page.
- * @name mainAppPage
- * @function
- * @param {string} path - The request path
- * @param {function} callback - The function to handle the request
- */
-app.get("/33251282/Zhi'En", async function(req, res) {
-    let drivers = await Driver.find({});
-    let packages = await Package.find({});
-    res.render("index", {drivers: drivers, packages: packages}); 
-})
-
-/**
- * Renders the CRUD operation stats page.
- * @name statsPage
- * @function
- * @param {string} path - The request path
- * @param {function} callback - The function to handle the request
- */
-app.get("/33251282/Zhi'En/stats", checkAuthentication, async function(req, res) {
-    const statsDoc = await db.collection('data').doc('stats').get();
-    const stats = statsDoc.data();
-    res.render("stats", {stats: stats}); 
-})
-
-/**
- * Renders the login page.
- * @name loginPage
- * @function
- * @param {string} path - The request path
- * @param {function} callback - The function to handle the request
- */
-app.get("/33251282/Zhi'En/login", function(req, res) {
-    res.render("login"); 
-})
-
-/**
- * Handles the login process.
- * @name loginProcess
- * @function
- * @param {string} path - The request path ("/33251282/Zhi'En/login").
- * @param {function} callback - The function to handle the request. Validates user credentials and
- *                              sets session authentication status. Redirects based on the outcome.
- */
-app.post("/33251282/Zhi'En/login", async function(req, res) {
-    let username = req.body.username;
-    let password = req.body.password;
-
-    let userFound = await getUser(username, password);
-
-    if (!userFound) {
-        res.render("invalid_data");
-    } else {
-        req.session.isAuthenticated = true;
-        res.redirect("/33251282/Zhi'En");
-    }
-})
-
-/**
- * Renders the signup page.
- * @name signupPage
- * @function
- * @param {string} path - The request path
- * @param {function} callback - The function to handle the request
- */
-app.get("/33251282/Zhi'En/signup", function(req, res) {
-    res.render("signup"); 
-})
-
-/**
- * Handles the signup process.
- * @name signupProcess
- * @function
- * @param {string} path - The request path ("/33251282/Zhi'En/signup").
- * @param {function} callback - The function to handle the request. Validates passwords, creates a new user,
- *                              and handles redirection or error rendering based on the outcome.
- */
-app.post("/33251282/Zhi'En/signup", async function(req, res) {
-    let username = req.body.username;
-    let password = req.body.password;
-    let confirmPassword = req.body.confirmPassword;
-
-    if (confirmPassword != password) {
-        res.render("invalid_data")
-    } else {
-        await signupUser(username, password);
-        res.redirect("/33251282/Zhi'En/login");
-    }
-})
-
-/**
- * Handles 404 errors by rendering a 404 Page Not Found page.
- * @name handle404
- * @function
- * @param {function} callback - The function to handle the request
- */
-app.use((req, res) => {
-    res.render("404");
-}) 
