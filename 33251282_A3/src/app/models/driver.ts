@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongodb';
+
 export class Driver {
     id: string;
     name: string;
@@ -5,7 +7,7 @@ export class Driver {
     licence: string;
     isActive: boolean;
     createdAt: Date;
-    assignedPackages: string[];
+    assignedPackages: ObjectId[];
 
     constructor() {
         this.id = '';
