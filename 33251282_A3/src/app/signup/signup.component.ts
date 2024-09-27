@@ -1,24 +1,24 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { DatabaseService } from '../database.service';
 import { User } from '../models/user';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-signup',
   standalone: true,
   imports: [FormsModule, RouterLink],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  templateUrl: './signup.component.html',
+  styleUrl: './signup.component.css'
 })
-export class LoginComponent {
+export class SignupComponent {
 
   user: User = new User();
 
   constructor(private db: DatabaseService) {}
 
-  loginUser() {
-    this.db.loginUser(this.user).subscribe((data: any) => {
+  signupUser() {
+    this.db.signupUser(this.user).subscribe((data: any) => {
       console.log(data);
     })
   }

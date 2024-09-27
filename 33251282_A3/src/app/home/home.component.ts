@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { Driver } from '../models/driver';
 import { DatabaseService } from '../database.service';
 import { Package } from '../models/package';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

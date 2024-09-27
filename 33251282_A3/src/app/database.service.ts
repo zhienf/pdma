@@ -14,39 +14,47 @@ export class DatabaseService {
 
   constructor(private http: HttpClient) { }
 
-  createCar(car: any) {
-    return this.http.post(API_URL + '/cars', car, httpOptions); 
-  }
-
-  getCars() {
-    return this.http.get(API_URL + '/cars');
-  }
-
-  deleteCar(id: string) {
-    return this.http.delete(API_URL + '/cars/' + id);
-  }
-
-  createDriver(driver: any) {
-    return this.http.post(API_URL + '/drivers/add', driver, httpOptions); 
-  }
-
   getDrivers() {
     return this.http.get(API_URL + '/drivers');
+  }
+
+  createDriver(aDriver: any) {
+    return this.http.post(API_URL + '/drivers/add', aDriver, httpOptions); 
   }
 
   deleteDriver(id: string) {
     return this.http.delete(API_URL + '/drivers/delete?id=' + id);
   }
 
-  createPackage(driver: any) {
-    return this.http.post(API_URL + '/packages/add', driver, httpOptions); 
+  updateDriver(aDriver: any) {
+    return this.http.put(API_URL + '/drivers/update', aDriver, httpOptions);
   }
 
   getPackages() {
     return this.http.get(API_URL + '/packages');
   }
 
+  createPackage(aPackage: any) {
+    return this.http.post(API_URL + '/packages/add', aPackage, httpOptions); 
+  }
+
   deletePackage(id: string) {
-    return this.http.delete(API_URL + '/packages/delete?id=' + id);
+    return this.http.delete(API_URL + '/packages/delete/' + id);
+  }
+
+  updatePackage(aPackage: any) {
+    return this.http.put(API_URL + '/packages/update', aPackage, httpOptions);
+  }
+
+  loginUser(aUser: any) {
+    return this.http.post(API_URL + '/login', aUser, httpOptions);
+  }
+
+  signupUser(aUser: any) {
+    return this.http.post(API_URL + '/signup', aUser, httpOptions);
+  }
+
+  getStats() {
+    return this.http.get(API_URL + '/stats');
   }
 }

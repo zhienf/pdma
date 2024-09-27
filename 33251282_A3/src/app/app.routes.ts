@@ -10,6 +10,7 @@ import { UpdatePackageComponent } from './update-package/update-package.componen
 import { StatisticsComponent } from './statistics/statistics.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
+import { SignupComponent } from './signup/signup.component';
 
 export const routes: Routes = [
     {path:'add-driver', component: AddDriverComponent},
@@ -22,6 +23,7 @@ export const routes: Routes = [
     {path:'update-package', component: UpdatePackageComponent},
     {path:'statistics', component: StatisticsComponent},
     {path:'login', component: LoginComponent},
+    {path:'signup', component: SignupComponent},
     {path:'home', component: HomeComponent},
     {path:'', redirectTo: '/home', pathMatch: 'full'},
 ];
