@@ -38,7 +38,7 @@ const router = express.Router();
  * @param {Object} res - The Express response object.
  * @returns {Object} JSON containing all package records.
  */
-router.get("/", checkAuthenticationAPI, packagesController.getAllPackages);
+router.get("/", packagesController.getAllPackages);
 
 /**
  * Adds a new package to the system. This route is protected and can only be accessed if the user is authenticated.
