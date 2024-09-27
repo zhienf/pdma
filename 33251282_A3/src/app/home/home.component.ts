@@ -1,18 +1,19 @@
 import { Component } from '@angular/core';
 import { Driver } from '../models/driver';
 import { DatabaseService } from '../database.service';
-
+import { Package } from '../models/package';
 
 @Component({
-  selector: 'app-list-drivers',
+  selector: 'app-home',
   standalone: true,
   imports: [],
-  templateUrl: './list-drivers.component.html',
-  styleUrl: './list-drivers.component.css'
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.css'
 })
-export class ListDriversComponent {
-  
+export class HomeComponent {
+
   drivers: Driver[] = [];
+  packages: Package[] = [];
 
   constructor(private db: DatabaseService) {}
 
@@ -20,11 +21,9 @@ export class ListDriversComponent {
     this.db.getDrivers().subscribe((data: any) => {
       this.drivers = data;
     });
-  }
 
-  deleteDriver(id: string) {
-    this.db.deleteDriver(id).subscribe((data: any) => {
-      console.log(data);
-    });
+    this.db.getPackages().subscribe((data: any) => {
+      this.packages = data;
+    })
   }
 }

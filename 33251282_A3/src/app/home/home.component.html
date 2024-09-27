@@ -1,0 +1,30 @@
+<div class="d-flex justify-content-center">
+    <img src="logo.png" class="img-fluid" alt="Logo">
+</div>
+<div class="album py-5">
+    <div class="container" style="text-align: center;">
+        <header class="text-center mb-5">
+            <h1 class="my-2">Package Delivery Management Application (PDMA)</h1>
+        </header>
+
+        <section class="text-center mb-5">
+            <h2 class="my-2">Manage Drivers</h2>
+            <p class="my-2">Current number of drivers: {{drivers.length}}</p>
+            <div class="my-3">
+                <a routerLink="/list-drivers" class="btn btn-primary mx-2">List of Drivers</a>
+                <a routerLink="/add-driver" class="btn btn-primary mx-2">Add a Driver</a>
+                <a routerLink="/delete-driver" class="btn btn-primary mx-2">Delete a Driver by ID</a>
+            </div>
+        </section>
+
+        <section class="text-center">
+            <h2 class="my-2">Manage Packages</h2>
+            <p class="my-2">Current number of packages: {{packages.length}}</p>
+            <div class="my-3">
+                <a routerLink="/list-packages" class="btn btn-primary mx-2">List of Packages</a>
+                <a routerLink="/add-package" class="btn btn-primary mx-2">Add a Package</a>
+                <a routerLink="/delete-package" class="btn btn-primary mx-2">Delete a Package by ID</a>
+            </div>
+        </section>
+    </div>
+</div>

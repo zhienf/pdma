@@ -38,7 +38,7 @@ const router = express.Router();
  * @param {Object} res - The Express response object.
  * @returns {Object} JSON containing all driver records.
  */
-router.get("/", checkAuthenticationAPI, driversController.getAllDrivers);
+router.get("/", driversController.getAllDrivers);
 
 /**
  * Adds a new driver to the system. This route is protected and can only be accessed if the user is authenticated.

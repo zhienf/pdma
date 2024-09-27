@@ -11,18 +11,6 @@
 const express = require("express");
 
 /**
- * Path module.
- * @const
- */
-const path = require("path");
-
-/**
- * EJS module.
- * @const
- */
-const ejs = require("ejs");
-
-/**
  * Mongoose module.
  * @const
  */
@@ -37,8 +25,8 @@ const session = require('express-session');
 /**
  * Mongoose database URL. 
  */
-const url = "mongodb://10.192.0.3:27017/pdma"; // private IP address of VM hosting MongoDB
-// const url = "mongodb://127.0.0.1:27017/pdma";
+// const url = "mongodb://10.192.0.3:27017/pdma"; // private IP address of VM hosting MongoDB
+const url = "mongodb://127.0.0.1:27017/pdma";
 
 /**
  * Configure Mongoose.
@@ -47,7 +35,7 @@ const url = "mongodb://10.192.0.3:27017/pdma"; // private IP address of VM hosti
  */
 async function connectDB(url) {
    await mongoose.connect(url);
-   return ("Connected Successfully");
+   return ("Connected to Mongoose successfully.");
 }
 
 // Establish connection to MongoDB
@@ -68,18 +56,6 @@ const { db, incrementCRUDCounter, signupUser, getUser } = require("./firestoreHe
 const { checkAuthentication } = require("./helper");
 
 /**
- * The Express router instance for managing driver-related routes.
- * @type {Router}
- */
-const driversRouter = require("./routers/drivers");
-
-/**
- * The Express router instance for managing package-related routes.
- * @type {Router}
- */
-const packagesRouter = require("./routers/packages");
-
-/**
  * The Express router instance for managing driver-related RESTful API endpoints.
  * @type {Router}
  */
@@ -96,16 +72,6 @@ const packagesAPIRouter = require("./routers/packagesAPI");
  * @type {Router}
  */
 const authAPIRouter = require("./routers/authAPI");
-
-/**
- * Driver Mongoose Schema.
- */
-const Driver = require("./models/driver");
-
-/**
- * Package Mongoose Schema
- */
-const Package = require("./models/package");
 
 /**
  * Port number to listen on.
@@ -166,19 +132,7 @@ app.use(express.static("assets/images"));
  */
 app.use(express.static("assets"));
 
-/**
- * Routes for managing drivers.
- * @name driversRouter
- * @function
- */
-app.use("/33251282/Zhi'En/drivers", driversRouter);
-
-/**
- * Routes for managing packages.
- * @name packagesRouter
- * @function
- */
-app.use("/33251282/Zhi'En/packages", packagesRouter);
+app.use(express.static('./dist/33251282-a3/browser'));
 
 /**
  * Routes for managing drivers API endpoints.
@@ -202,53 +156,12 @@ app.use("/33251282/Zhi'En/api/v1/packages", packagesAPIRouter);
 app.use("/33251282/Zhi'En/api/v1", authAPIRouter);
 
 /**
- * Set the HTML engine to EJS for rendering views.
- * @name engine
- * @function
- * @param {string} ext - The file extension to use
- * @param {function} callback - The render function
- */
-app.engine("html", ejs.renderFile); 
-
-/**
- * Set the view engine to HTML (EJS).
- * @name setViewEngine
- * @function
- * @param {string} engine - The view engine to use
- */
-app.set("view engine", "html");
-
-/**
  * Starts the Express server on the specified port.
  * @name listen
  * @function
  * @param {number} port - The port number to listen on
  */
 app.listen(PORT_NUMBER);
-
-/**
- * Redirects root requests with no pathname to the application home page.
- * @name rootRedirect
- * @function
- * @param {string} path - The request path
- * @param {function} callback - The function to handle the request
- */
-app.get("/", function(req, res) {
-    res.redirect("/33251282/Zhi'En");
-})
-
-/**
- * Renders the application home page.
- * @name mainAppPage
- * @function
- * @param {string} path - The request path
- * @param {function} callback - The function to handle the request
- */
-app.get("/33251282/Zhi'En", async function(req, res) {
-    let drivers = await Driver.find({});
-    let packages = await Package.find({});
-    res.render("index", {drivers: drivers, packages: packages}); 
-})
 
 /**
  * Renders the CRUD operation stats page.
@@ -260,72 +173,7 @@ app.get("/33251282/Zhi'En", async function(req, res) {
 app.get("/33251282/Zhi'En/stats", checkAuthentication, async function(req, res) {
     const statsDoc = await db.collection('data').doc('stats').get();
     const stats = statsDoc.data();
-    res.render("stats", {stats: stats}); 
-})
-
-/**
- * Renders the login page.
- * @name loginPage
- * @function
- * @param {string} path - The request path
- * @param {function} callback - The function to handle the request
- */
-app.get("/33251282/Zhi'En/login", function(req, res) {
-    res.render("login"); 
-})
-
-/**
- * Handles the login process.
- * @name loginProcess
- * @function
- * @param {string} path - The request path ("/33251282/Zhi'En/login").
- * @param {function} callback - The function to handle the request. Validates user credentials and
- *                              sets session authentication status. Redirects based on the outcome.
- */
-app.post("/33251282/Zhi'En/login", async function(req, res) {
-    let username = req.body.username;
-    let password = req.body.password;
-
-    let userFound = await getUser(username, password);
-
-    if (!userFound) {
-        res.render("invalid_data");
-    } else {
-        req.session.isAuthenticated = true;
-        res.redirect("/33251282/Zhi'En");
-    }
-})
-
-/**
- * Renders the signup page.
- * @name signupPage
- * @function
- * @param {string} path - The request path
- * @param {function} callback - The function to handle the request
- */
-app.get("/33251282/Zhi'En/signup", function(req, res) {
-    res.render("signup"); 
-})
-
-/**
- * Handles the signup process.
- * @name signupProcess
- * @function
- * @param {string} path - The request path ("/33251282/Zhi'En/signup").
- * @param {function} callback - The function to handle the request. Validates passwords, creates a new user,
- *                              and handles redirection or error rendering based on the outcome.
- */
-app.post("/33251282/Zhi'En/signup", async function(req, res) {
-    let username = req.body.username;
-    let password = req.body.password;
-    let confirmPassword = req.body.confirmPassword;
-
-    if (confirmPassword != password) {
-        res.render("invalid_data")
-    } else {
-        await signupUser(username, password);
-        res.redirect("/33251282/Zhi'En/login");
-    }
+    // res.render("stats", {stats: stats}); 
 })
 
 /**
@@ -335,5 +183,5 @@ app.post("/33251282/Zhi'En/signup", async function(req, res) {
  * @param {function} callback - The function to handle the request
  */
 app.use((req, res) => {
-    res.render("404");
+    // res.render("404");
 }) 
