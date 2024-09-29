@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { DatabaseService } from '../database.service';
 import { User } from '../models/user';
 
@@ -15,11 +15,23 @@ export class LoginComponent {
 
   user: User = new User();
 
-  constructor(private db: DatabaseService) {}
+  constructor(private db: DatabaseService, private router: Router) {}
 
   loginUser() {
-    this.db.loginUser(this.user).subscribe((data: any) => {
-      console.log(data);
+    const userData = {
+      username: this.user.username,
+      password: this.user.password
+    };
+
+    this.db.loginUser(userData).subscribe({
+      next: (value: any) => {
+        console.log(value);
+        this.router.navigate(['home']);
+      },
+      error: (err: any) => {
+        console.error(err);
+        this.router.navigate(['invalid-data']);
+      }
     })
   }
 }

@@ -17,12 +17,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 /**
- * Express session middleware.
- * @const
- */
-const session = require('express-session');
-
-/**
  * Mongoose database URL. 
  */
 // const url = "mongodb://10.192.0.3:27017/pdma"; // private IP address of VM hosting MongoDB
@@ -47,13 +41,7 @@ connectDB(url)
  * Functions for accessing Firestore database.
  * @const
  */
-const { db } = require("./firestoreHelper");
-
-/**
- * Middleware function for authentication.
- * @const
- */
-const { checkAuthenticationAPI } = require("./helper");
+const { db, signupUser, getUser } = require("./firestoreHelper");
 
 /**
  * The Express router instance for managing driver-related RESTful API endpoints.
@@ -68,12 +56,6 @@ const driversAPIRouter = require("./routers/driversAPI");
 const packagesAPIRouter = require("./routers/packagesAPI");
 
 /**
- * The Express router instance for managing user authentication RESTful API endpoints.
- * @type {Router}
- */
-const authAPIRouter = require("./routers/authAPI");
-
-/**
  * Port number to listen on.
  * @const
  */
@@ -84,6 +66,8 @@ const PORT_NUMBER = 8080;
  * @const
  */
 const app = express();
+
+const API_URL = "/33251282/Zhi'En/api/v1";
 
 /**
  * Starts the Express server on the specified port.
@@ -103,15 +87,18 @@ app.use(express.json());
 app.use(express.static('./dist/33251282-a3/browser'));
 
 /**
- * Middleware to manage user session.
- * @name sessionMiddleware
+ * Routes for managing drivers API endpoints.
+ * @name driversAPIRouter
  * @function
  */
-app.use(session({
-    secret: 'fit2095-a2', // secret key for session encryption
-    resave: false,           // session not saved if unmodified
-    saveUninitialized: false // session not created until something is stored
-  }));
+app.use(API_URL + "/drivers", driversAPIRouter);
+
+/**
+ * Routes for managing packages API endpoints.
+ * @name packagesAPIRouter
+ * @function
+ */
+app.use(API_URL + "/packages", packagesAPIRouter);
 
 /**
  * Renders the CRUD operation stats page.
@@ -120,38 +107,86 @@ app.use(session({
  * @param {string} path - The request path
  * @param {function} callback - The function to handle the request
  */
-app.get("/33251282/Zhi'En/api/v1/stats", checkAuthenticationAPI, async function(req, res) {
-    const statsDoc = await db.collection('data').doc('stats').get();
-    res.status(200).json(statsDoc.data());
+app.get(API_URL + "/stats", async function(req, res) {
+    try {
+        const statsDoc = await db.collection('data').doc('stats').get();
+        res.status(200).json(statsDoc.data());
+    } catch {
+        res.status(500).json({
+            status: "An error occurred"
+        });
+    }
 });
 
 /**
- * Routes for managing drivers API endpoints.
- * @name driversAPIRouter
+ * POST login endpoint.
+ * 
+ * This route handles user login by checking the provided username and password 
+ * against stored users in Firestore. If the credentials are valid, the session 
+ * is updated to reflect the authenticated state.
+ * 
+ * @name POST /login
  * @function
+ * @param {string} req.body.username - The username provided by the user.
+ * @param {string} req.body.password - The password provided by the user.
+ * @returns {Object} JSON response with the login status.
  */
-app.use("/33251282/Zhi'En/api/v1/drivers", driversAPIRouter);
+app.post(API_URL + "/login", async function(req, res) {
+    try {
+        let username = req.body.username;
+        let password = req.body.password;
+
+        let userFound = await getUser(username, password);
+    
+        if (!userFound) {
+            res.status(400).json({
+                status: 'Invalid username or password'
+            });
+        } else {
+            res.status(200).json({
+                status: 'Login successfully'
+            });
+        }
+    } catch {
+        res.status(500).json({
+            status: "An error occurred"
+        });
+    }
+});
 
 /**
- * Routes for managing packages API endpoints.
- * @name packagesAPIRouter
+ * POST signup endpoint.
+ * 
+ * This route handles user signup by checking that the provided passwords match 
+ * and then adding the new user to Firestore. A JSON response is returned to 
+ * indicate success or failure.
+ * 
+ * @name POST /signup
  * @function
+ * @param {string} req.body.username - The username to be registered.
+ * @param {string} req.body.password - The password for the new account.
+ * @param {string} req.body.confirmPassword - The confirmation password.
+ * @returns {Object} JSON response with the signup status.
  */
-app.use("/33251282/Zhi'En/api/v1/packages", packagesAPIRouter);
-
-/**
- * Routes for managing authentication API endpoints.
- * @name driversAPIRouter
- * @function
- */
-app.use("/33251282/Zhi'En/api/v1", authAPIRouter);
-
-/**
- * Handles 404 errors by rendering a 404 Page Not Found page.
- * @name handle404
- * @function
- * @param {function} callback - The function to handle the request
- */
-app.use((req, res) => {
-    res.status(404);
-}); 
+app.post(API_URL + "/signup", async function(req, res) {
+    try {
+        let username = req.body.username;
+        let password = req.body.password;
+        let confirmPassword = req.body.confirmPassword;
+    
+        if (confirmPassword != password) {
+            res.status(400).json({
+                status: 'Passwords do not match'
+            });
+        } else {
+            await signupUser(username, password);
+            res.status(200).json({
+                status: 'Signup successfully'
+            });
+        }
+    } catch {
+        res.status(500).json({
+            status: "An error occurred"
+        });
+    }
+});

@@ -1,1 +1,51 @@
-<p>statistics works!</p>
+<div class="album py-5">
+    <div class="container">
+        <h1 class="my-2">Statistics</h1>
+        
+        <div class="row row-cols-1 row-cols-sm-2 g-3 my-3">
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h3 class="my-2">CRUD Operation</h3>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Operation</th>
+                                    <th scope="col">Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td scope="row" class="fw-bold">Create</td>
+                                    <td scope="col">{{stats.create}}</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row" class="fw-bold">Retrieve</td>
+                                    <td scope="col">{{stats.retrieve}}</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row" class="fw-bold">Update</td>
+                                    <td scope="col">{{stats.update}}</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row" class="fw-bold">Delete</td>
+                                    <td scope="col">{{stats.delete}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row row-cols-1 row-cols-sm-2 g-3">
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h4 class="my-2">Current number of drivers: {{drivers.length}}</h4>
+                        <h4 class="my-2">Current number of packages: {{packages.length}}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

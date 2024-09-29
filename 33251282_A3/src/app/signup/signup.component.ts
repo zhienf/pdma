@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatabaseService } from '../database.service';
 import { User } from '../models/user';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -15,11 +15,18 @@ export class SignupComponent {
 
   user: User = new User();
 
-  constructor(private db: DatabaseService) {}
+  constructor(private db: DatabaseService, private router: Router) {}
 
   signupUser() {
-    this.db.signupUser(this.user).subscribe((data: any) => {
-      console.log(data);
+    this.db.signupUser(this.user).subscribe({
+      next: (value: any) => {
+        console.log(value);
+        this.router.navigate(['login']);
+      },
+      error: (err: any) => {
+        console.error(err);
+        this.router.navigate(['invalid-data']);
+      }
     })
   }
 }

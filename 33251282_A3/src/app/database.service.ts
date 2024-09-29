@@ -31,7 +31,7 @@ export class DatabaseService {
   }
 
   getPackages() {
-    return this.http.get(API_URL + '/packages');
+    return this.http.get(API_URL + '/packages', httpOptions);
   }
 
   createPackage(aPackage: any) {
@@ -39,7 +39,7 @@ export class DatabaseService {
   }
 
   deletePackage(id: string) {
-    return this.http.delete(API_URL + '/packages/delete/' + id);
+    return this.http.delete(API_URL + '/packages/delete/' + id, httpOptions);
   }
 
   updatePackage(aPackage: any) {
