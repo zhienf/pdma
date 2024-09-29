@@ -1,4 +1,5 @@
 export class Driver {
+    _id: string;
     id: string;
     name: string;
     department: string; 
@@ -8,6 +9,7 @@ export class Driver {
     assignedPackages: string[];
 
     constructor() {
+        this._id = '';
         this.id = '';
         this.name = '';
         this.department = '';

@@ -11,6 +11,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
+                                <th scope="col">Driver ID</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Department</th>
                                 <th scope="col">Licence</th>
@@ -23,14 +24,17 @@
                         <tbody>
                             @for (driver of drivers; track $index) {
                             <tr>
+                                <td scope="row">{{driver._id}}</td>
                                 <td scope="row">{{driver.id}}</td>
                                 <td scope="row">{{driver.name}}</td>
                                 <td scope="row">{{driver.department}}</td>
                                 <td scope="row">{{driver.licence}}</td>
                                 <td scope="row">{{ driver.isActive ? 'Yes' : 'No' }}</td>
+                                <td scope="row">{{ driver.createdAt }}</td>
                                 <!-- <td scope="row">{{ driver.createdAt | date: 'MM/dd/wyyyy, hh:mm:ss a' }}</td> -->
-                                <td>
-                                    <button class="btn btn-danger" (click)="deleteDriver(driver.id)">Delete</button>
+                                <td scope="row">
+                                    <button class="btn btn-primary me-2" >Packages</button>
+                                    <button class="btn btn-danger" (click)="deleteDriver(driver._id)">Delete</button>
                                 </td>
                             </tr>
                             }  

@@ -53,7 +53,7 @@ router.get("/", driversController.getAllDrivers);
  * @param {boolean} req.body.driver_isActive - Whether the driver is active or not.
  * @returns {Object} JSON containing the newly added driver's ID.
  */
-router.post("/add", checkAuthenticationAPI, driversController.addDriver);
+router.post("/add", driversController.addDriver);
 
 /**
  * Deletes a driver by their ID. This route is protected and can only be accessed if the user is authenticated.
@@ -65,7 +65,7 @@ router.post("/add", checkAuthenticationAPI, driversController.addDriver);
  * @param {string} req.query.id - The ID of the driver to be deleted.
  * @returns {Object} JSON indicating success or failure of the deletion.
  */
-router.delete("/delete", checkAuthenticationAPI, driversController.removeDriverById);
+router.delete("/delete", driversController.removeDriverById);
 
 /**
  * Updates the licence and department of a driver by their ID. This route is protected and can only be accessed if the user is authenticated.
@@ -79,6 +79,6 @@ router.delete("/delete", checkAuthenticationAPI, driversController.removeDriverB
  * @param {string} req.body.driver_department - The new department of the driver.
  * @returns {Object} JSON indicating success or failure of the update.
  */
-router.put("/update", checkAuthenticationAPI, driversController.updateDriverById);
+router.put("/update", driversController.updateDriverById);
 
 module.exports = router;

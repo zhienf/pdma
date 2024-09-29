@@ -7,27 +7,6 @@
  */
 module.exports = {
     /**
-     * Middleware to check if a user is authenticated.
-     * 
-     * This middleware checks if the user is logged in by verifying the `isAuthenticated` property 
-     * on the session object. If authenticated, it proceeds to the next route handler. 
-     * Otherwise, it redirects the user to the login page.
-     * 
-     * @name checkAuthentication
-     * @function
-     * @param {Object} req - The request object.
-     * @param {Object} res - The response object.
-     * @param {Function} next - The next middleware function.
-     */
-    checkAuthentication: function checkAuthentication(req, res, next) {
-        if (req.session.isAuthenticated) {
-            return next(); // User is logged in, proceed to next route handler
-        } else {
-            return res.redirect("/33251282/Zhi'En/login"); // User is not authenticated, redirect to login page
-        }
-    },
-
-    /**
      * Middleware to check if a user is authenticated for API routes.
      * 
      * This middleware checks if the user is logged in by verifying the `isAuthenticated` property 

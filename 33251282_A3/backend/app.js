@@ -47,13 +47,13 @@ connectDB(url)
  * Functions for accessing Firestore database.
  * @const
  */
-const { db, incrementCRUDCounter, signupUser, getUser } = require("./firestoreHelper");
+const { db } = require("./firestoreHelper");
 
 /**
  * Middleware function for authentication.
  * @const
  */
-const { checkAuthentication } = require("./helper");
+const { checkAuthenticationAPI } = require("./helper");
 
 /**
  * The Express router instance for managing driver-related RESTful API endpoints.
@@ -86,12 +86,12 @@ const PORT_NUMBER = 8080;
 const app = express();
 
 /**
- * Middleware to parse application/x-www-form-urlencoded.
- * @name urlencodedMiddleware
+ * Starts the Express server on the specified port.
+ * @name listen
  * @function
- * @param {Object} options - Middleware options
+ * @param {number} port - The port number to listen on
  */
-app.use(express.urlencoded({ extended: true })); 
+app.listen(PORT_NUMBER);
 
 /**
  * Middleware to parse JSON data.
@@ -99,6 +99,8 @@ app.use(express.urlencoded({ extended: true }));
  * @function
  */
 app.use(express.json());
+
+app.use(express.static('./dist/33251282-a3/browser'));
 
 /**
  * Middleware to manage user session.
@@ -112,27 +114,16 @@ app.use(session({
   }));
 
 /**
- * Middleware to serve static CSS files from Bootstrap.
- * @name staticMiddlewareCSS
+ * Renders the CRUD operation stats page.
+ * @name statsPage
  * @function
+ * @param {string} path - The request path
+ * @param {function} callback - The function to handle the request
  */
-app.use(express.static("node_modules/bootstrap/dist/css")); 
-
-/**
- * Middleware to serve static images.
- * @name staticMiddlewareImages
- * @function
- */
-app.use(express.static("assets/images"));
-
-/**
- * Middleware to serve static CSS files.
- * @name staticMiddlewareAssets
- * @function
- */
-app.use(express.static("assets"));
-
-app.use(express.static('./dist/33251282-a3/browser'));
+app.get("/33251282/Zhi'En/api/v1/stats", checkAuthenticationAPI, async function(req, res) {
+    const statsDoc = await db.collection('data').doc('stats').get();
+    res.status(200).json(statsDoc.data());
+});
 
 /**
  * Routes for managing drivers API endpoints.
@@ -156,32 +147,11 @@ app.use("/33251282/Zhi'En/api/v1/packages", packagesAPIRouter);
 app.use("/33251282/Zhi'En/api/v1", authAPIRouter);
 
 /**
- * Starts the Express server on the specified port.
- * @name listen
- * @function
- * @param {number} port - The port number to listen on
- */
-app.listen(PORT_NUMBER);
-
-/**
- * Renders the CRUD operation stats page.
- * @name statsPage
- * @function
- * @param {string} path - The request path
- * @param {function} callback - The function to handle the request
- */
-app.get("/33251282/Zhi'En/stats", checkAuthentication, async function(req, res) {
-    const statsDoc = await db.collection('data').doc('stats').get();
-    const stats = statsDoc.data();
-    // res.render("stats", {stats: stats}); 
-})
-
-/**
  * Handles 404 errors by rendering a 404 Page Not Found page.
  * @name handle404
  * @function
  * @param {function} callback - The function to handle the request
  */
 app.use((req, res) => {
-    // res.render("404");
-}) 
+    res.status(404);
+}); 

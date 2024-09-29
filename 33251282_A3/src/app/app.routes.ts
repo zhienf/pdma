@@ -11,6 +11,8 @@ import { StatisticsComponent } from './statistics/statistics.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { SignupComponent } from './signup/signup.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { InvalidDataComponent } from './invalid-data/invalid-data.component';
 
 export const routes: Routes = [
     {path:'add-driver', component: AddDriverComponent},
@@ -25,5 +27,8 @@ export const routes: Routes = [
     {path:'login', component: LoginComponent},
     {path:'signup', component: SignupComponent},
     {path:'home', component: HomeComponent},
+    {path:'invalid-data', component: InvalidDataComponent},
+    {path:'page-not-found', component: PageNotFoundComponent},
+    {path:'**', redirectTo: '/page-not-found'},
     {path:'', redirectTo: '/home', pathMatch: 'full'},
 ];

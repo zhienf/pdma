@@ -1,4 +1,5 @@
 export class Package {
+    _id: string;
     id: string;
     title: string;
     weight: number;
@@ -9,6 +10,7 @@ export class Package {
     driverId: string;
 
     constructor() {
+        this._id = '';
         this.id = '';
         this.title = '';
         this.weight = 0;

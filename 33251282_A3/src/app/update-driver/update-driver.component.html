@@ -1,1 +1,34 @@
-<p>update-driver works!</p>
+<div class="album py-5">
+    <div class="container">
+        <h1 class="my-2">Update a Driver by ID</h1>
+
+        <div class="row row-cols-1 row-cols-sm-2 g-3">
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="id" class="form-label">ID</label>
+                            <input type="text" id="id" name="id" class="form-control" placeholder="Enter driver's MongoDB ID" [(ngModel)]="driver._id" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="licence" class="form-label">Licence</label>
+                            <input type="text" id="licence" name="licence" class="form-control" placeholder="Enter new licence" [(ngModel)]="driver.licence" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="department" class="form-label">Department</label>
+                            <select id="department" name="department" class="form-control" [(ngModel)]="driver.department" required>
+                                @for (department of departments; track $index) {
+                                    <option [value]="department">{{department}}</option>
+                                }
+                            </select>
+                        </div>
+            
+                        <button class="btn btn-primary" (click)="updateDriver()">Update driver</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

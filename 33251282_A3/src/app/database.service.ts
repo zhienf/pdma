@@ -15,7 +15,7 @@ export class DatabaseService {
   constructor(private http: HttpClient) { }
 
   getDrivers() {
-    return this.http.get(API_URL + '/drivers');
+    return this.http.get(API_URL + '/drivers', httpOptions);
   }
 
   createDriver(aDriver: any) {
@@ -23,7 +23,7 @@ export class DatabaseService {
   }
 
   deleteDriver(id: string) {
-    return this.http.delete(API_URL + '/drivers/delete?id=' + id);
+    return this.http.delete(API_URL + '/drivers/delete?id=' + id, httpOptions);
   }
 
   updateDriver(aDriver: any) {

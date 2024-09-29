@@ -55,7 +55,7 @@ router.get("/", packagesController.getAllPackages);
  * @param {string} req.body.driver_id - The ID of the driver to whom the package is allocated (if any).
  * @returns {Object} JSON containing the newly added package's ID.
  */
-router.post("/add", checkAuthenticationAPI, packagesController.addPackage);
+router.post("/add", packagesController.addPackage);
 
 /**
  * Deletes a package by its ID. This route is protected and can only be accessed if the user is authenticated.
@@ -67,7 +67,7 @@ router.post("/add", checkAuthenticationAPI, packagesController.addPackage);
  * @param {string} req.params.id - The ID of the package to be deleted.
  * @returns {Object} JSON indicating success or failure of the deletion.
  */
-router.delete("/delete/:id", checkAuthenticationAPI, packagesController.removePackageById);
+router.delete("/delete/:id", packagesController.removePackageById);
 
 /**
  * Updates the destination of a package by its ID. This route is protected and can only be accessed if the user is authenticated.
@@ -80,6 +80,6 @@ router.delete("/delete/:id", checkAuthenticationAPI, packagesController.removePa
  * @param {string} req.body.package_destination - The new destination of the package.
  * @returns {Object} JSON indicating success or failure of the update.
  */
-router.put("/update", checkAuthenticationAPI, packagesController.updatePackageById);
+router.put("/update", packagesController.updatePackageById);
 
 module.exports = router;

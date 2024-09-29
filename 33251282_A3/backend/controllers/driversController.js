@@ -22,9 +22,15 @@ module.exports = {
      * @returns {JSON} - List of all drivers.
      */
     getAllDrivers: async function(req, res) {
-        let driver = await Driver.find({}).populate("assignedPackages");
-        await incrementCRUDCounter("retrieve");
-        res.status(200).json(driver);
+        try {
+            let driver = await Driver.find({}).populate("assignedPackages");
+            await incrementCRUDCounter("retrieve");
+            res.status(200).json(driver);
+        } catch (err) {
+            res.status(500).json({
+                status: "An error occurred"
+            });
+        }
     },
 
     /**
@@ -39,14 +45,20 @@ module.exports = {
      * @returns {JSON} - The newly added driver's ID and internal ID.
      */
     addDriver: async function(req, res) {
-        let aDriver = req.body;
-        let driverDoc = new Driver({name: aDriver.driver_name, department: aDriver.driver_department, licence: aDriver.driver_licence, isActive: aDriver.driver_isActive});
-        await driverDoc.save();
-        await incrementCRUDCounter("create");
-        res.status(200).json({
-            id: driverDoc._id,
-            driver_id: driverDoc.id
-        });
+        try {
+            let aDriver = req.body;
+            let driverDoc = new Driver({name: aDriver.driver_name, department: aDriver.driver_department, licence: aDriver.driver_licence, isActive: aDriver.driver_isActive});
+            await driverDoc.save();
+            await incrementCRUDCounter("create");
+            res.status(200).json({
+                id: driverDoc._id,
+                driver_id: driverDoc.id
+            });
+        } catch (err) {
+            res.status(500).json({
+                status: "An error occurred"
+            });
+        }
     },
 
     /**
@@ -61,21 +73,27 @@ module.exports = {
      * @returns {JSON} - The result of the deletion or an error message if the driver was not found.
      */
     removeDriverById: async function(req, res) {
-        let id = new ObjectId(req.query.id);
-        let theDriver = await Driver.findOne({_id: id});
-        if (!theDriver) {
-            res.status(404).json({
-                status: "ID not found"
+        try {
+            let id = req.query.id;
+            let theDriver = await Driver.findOne({_id: id});
+            if (!theDriver) {
+                res.status(404).json({
+                    status: "ID not found"
+                });
+            } else {
+                let assignedPackages = theDriver.assignedPackages;
+                assignedPackages.forEach(async pkg => {
+                    await Package.findOneAndDelete({_id: pkg._id});
+                });
+                let result = await Driver.deleteOne({_id: id});
+                await incrementCRUDCounter("delete");
+                res.status(200).json(result);
+            }     
+        } catch (err) {
+            res.status(500).json({
+                status: "An error occurred"
             });
-        } else {
-            let assignedPackages = theDriver.assignedPackages;
-            assignedPackages.forEach(async pkg => {
-                await Package.findOneAndDelete({_id: pkg._id});
-            });
-            let result = await Driver.deleteOne({_id: id});
-            await incrementCRUDCounter("delete");
-            res.status(200).json(result);
-        }        
+        }   
     },
 
     /**
@@ -91,7 +109,7 @@ module.exports = {
      */
     updateDriverById: async function(req, res) {
         try {
-            let driverId = new ObjectId(req.body.id);
+            let driverId = req.body.id;
             let driverLicence = req.body.driver_licence;
             let driverDepartment = req.body.driver_department;
             let theDriver = await Driver.findOneAndUpdate({_id: driverId}, {licence: driverLicence, department: driverDepartment});
