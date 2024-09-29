@@ -1,1 +1,48 @@
-<p>list-packages works!</p>
+<div class="album py-5">
+    <div class="container">
+        <h1 class="my-2">List of Packages</h1>
+
+        <div class="row row-cols-1 g-3">
+            <div class="col">
+                @if (packages.length === 0) {
+                    <h3>No packages at the moment.</h3>
+                } @else {
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Weight</th>
+                                <th scope="col">Destination</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Is Allocated?</th>
+                                <th scope="col">Driver's ID</th>
+                                <th scope="col">Created At</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+    
+                        <tbody>
+                            @for (package of packages; track $index) {
+                            <tr>
+                                <td scope="row">{{package._id}}</td>
+                                <td scope="row">{{package.title}}</td>
+                                <td scope="row">{{package.weight}}</td>
+                                <td scope="row">{{package.destination}}</td>
+                                <td scope="row">{{package.description}}</td>
+                                <td scope="row">{{package.isAllocated ? 'Yes' : 'No'}}</td>
+                                <td scope="row">{{package.driverId ? package.driverId._id : 'Not allocated'}}</td>
+                                <td scope="row">{{package.createdAt}}</td>
+                                <td>
+                                    <button class="btn btn-primary me-2" >Driver</button>
+                                    <button class="btn btn-danger" (click)="deletePackage(package._id)">Delete</button>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>

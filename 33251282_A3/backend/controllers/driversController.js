@@ -7,7 +7,6 @@
 const Driver = require("../models/driver");
 const Package = require("../models/package");
 const { incrementCRUDCounter } = require("../firestoreHelper");
-const { ObjectId } = require('mongodb');
 
 module.exports = {
     /**

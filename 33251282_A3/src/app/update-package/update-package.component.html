@@ -1,1 +1,25 @@
-<p>update-package works!</p>
+<div class="album py-5">
+    <div class="container">
+        <h1 class="my-2">Update a Package by ID</h1>
+
+        <div class="row row-cols-1 row-cols-sm-2 g-3">
+            <div class="col">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="id" class="form-label">ID</label>
+                            <input type="text" id="id" name="id" class="form-control" placeholder="Enter package's MongoDB ID" [(ngModel)]="package._id" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="destination" class="form-label">Destination</label>
+                            <input type="text" id="destination" name="destination" class="form-control" placeholder="Enter new destination" [(ngModel)]="package.destination" required />
+                        </div>
+            
+                        <button class="btn btn-primary" (click)="updatePackage()">Update package</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

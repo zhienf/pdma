@@ -1,3 +1,5 @@
+import { Driver } from "./driver";
+
 export class Package {
     _id: string;
     id: string;
@@ -7,7 +9,7 @@ export class Package {
     description: string;
     createdAt: Date;
     isAllocated: boolean;
-    driverId: string;
+    driverId: Driver;
 
     constructor() {
         this._id = '';
@@ -18,6 +20,6 @@ export class Package {
         this.description = '';
         this.createdAt = new Date();
         this.isAllocated = true;
-        this.driverId = '';
+        this.driverId = new Driver();
     }
 }
