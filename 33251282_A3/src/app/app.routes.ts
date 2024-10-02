@@ -29,6 +29,6 @@ export const routes: Routes = [
     {path:'home', component: HomeComponent},
     {path:'invalid-data', component: InvalidDataComponent},
     {path:'page-not-found', component: PageNotFoundComponent},
-    {path:'**', redirectTo: '/page-not-found'},
     {path:'', redirectTo: '/home', pathMatch: 'full'},
+    {path:'**', redirectTo: '/page-not-found'},
 ];

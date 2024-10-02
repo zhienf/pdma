@@ -27,15 +27,15 @@
                             <tr>
                                 <td scope="row">{{package._id}}</td>
                                 <td scope="row">{{package.title}}</td>
-                                <td scope="row">{{package.weight}}</td>
+                                <td scope="row">{{package.weight | weight}}</td>
                                 <td scope="row">{{package.destination}}</td>
                                 <td scope="row">{{package.description}}</td>
                                 <td scope="row">{{package.isAllocated ? 'Yes' : 'No'}}</td>
                                 <td scope="row">{{package.driverId ? package.driverId._id : 'Not allocated'}}</td>
-                                <td scope="row">{{package.createdAt}}</td>
+                                <td scope="row">{{package.createdAt | date: 'MM/dd/yyyy, hh:mm:ss a'}}</td>
                                 <td>
                                     <button class="btn btn-primary me-2" >Driver</button>
-                                    <button class="btn btn-danger" (click)="deletePackage(package._id)">Delete</button>
+                                    <app-delete-package [id]="package._id" (onDelete)="getPackages()"></app-delete-package>
                                 </td>
                             </tr>
                         }

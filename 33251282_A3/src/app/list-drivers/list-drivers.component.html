@@ -26,15 +26,14 @@
                             <tr>
                                 <td scope="row">{{driver._id}}</td>
                                 <td scope="row">{{driver.id}}</td>
-                                <td scope="row">{{driver.name}}</td>
+                                <td scope="row">{{driver.name | uppercase}}</td>
                                 <td scope="row">{{driver.department}}</td>
                                 <td scope="row">{{driver.licence}}</td>
-                                <td scope="row">{{ driver.isActive ? 'Yes' : 'No' }}</td>
-                                <td scope="row">{{ driver.createdAt }}</td>
-                                <!-- <td scope="row">{{ driver.createdAt | date: 'MM/dd/wyyyy, hh:mm:ss a' }}</td> -->
+                                <td scope="row">{{driver.isActive ? 'Yes' : 'No'}}</td>
+                                <td scope="row">{{driver.createdAt | date: 'MM/dd/yyyy, hh:mm:ss a'}}</td>
                                 <td scope="row">
                                     <button class="btn btn-primary me-2" >Packages</button>
-                                    <button class="btn btn-danger" (click)="deleteDriver(driver._id)">Delete</button>
+                                    <app-delete-driver [id]="driver._id" (onDelete)="getDrivers()"></app-delete-driver>
                                 </td>
                             </tr>
                             }  

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatabaseService } from '../database.service';
 import { Router } from '@angular/router';
@@ -12,7 +12,8 @@ import { Router } from '@angular/router';
 })
 export class DeletePackageComponent {
 
-  id: string = '';
+  @Input() id: string = '';
+  @Output() onDelete: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private db: DatabaseService, private router: Router) {}
 
@@ -20,7 +21,7 @@ export class DeletePackageComponent {
     this.db.deletePackage(this.id).subscribe({
       next: (value: any) => {
         console.log(value);
-        this.router.navigate(['list-packages']);
+        this.onDelete.emit();
       },
       error: (err: any) => {
         console.error(err);

@@ -5,8 +5,10 @@
         <div class="row row-cols-1 row-cols-sm-2 g-3 my-3">
             <div class="col">
                 <div class="card shadow-sm">
-                    <div class="card-body">
+                    <div class="card-header">
                         <h3 class="my-2">CRUD Operation</h3>
+                    </div>
+                    <div class="card-body">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -34,15 +36,9 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="row row-cols-1 row-cols-sm-2 g-3">
-            <div class="col">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h4 class="my-2">Current number of drivers: {{drivers.length}}</h4>
-                        <h4 class="my-2">Current number of packages: {{packages.length}}</h4>
+                    <div class="card-footer">
+                        <p class="my-2">Current number of drivers: {{drivers.length}}</p>
+                        <p class="my-2">Current number of packages: {{packages.length}}</p>
                     </div>
                 </div>
             </div>

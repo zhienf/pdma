@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { Driver } from '../models/driver';
 import { DatabaseService } from '../database.service';
 import { Router } from '@angular/router';
+import { DatePipe, UpperCasePipe } from '@angular/common';
+import { DeleteDriverComponent } from '../delete-driver/delete-driver.component';
 
 
 @Component({
   selector: 'app-list-drivers',
   standalone: true,
-  imports: [],
+  imports: [UpperCasePipe, DatePipe, DeleteDriverComponent],
   templateUrl: './list-drivers.component.html',
   styleUrl: './list-drivers.component.css'
 })
@@ -24,19 +26,6 @@ export class ListDriversComponent {
   getDrivers() {
     this.db.getDrivers().subscribe((data: any) => {
       this.drivers = data;
-    });
-  }
-
-  deleteDriver(id: string) {
-    this.db.deleteDriver(id).subscribe({
-      next: (value: any) => {
-        console.log(value);
-        this.getDrivers();
-      },
-      error: (err: any) => {
-        console.error(err);
-        this.router.navigate(['invalid-data']);
-      }
     });
   }
 }
