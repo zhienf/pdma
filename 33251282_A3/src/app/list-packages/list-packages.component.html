@@ -23,7 +23,7 @@
                         </thead>
     
                         <tbody>
-                            @for (package of packages; track $index) {
+                        @for (package of packages; track $index) {
                             <tr>
                                 <td scope="row">{{package._id}}</td>
                                 <td scope="row">{{package.title}}</td>
@@ -34,10 +34,17 @@
                                 <td scope="row">{{package.driverId ? package.driverId._id : 'Not allocated'}}</td>
                                 <td scope="row">{{package.createdAt | date: 'MM/dd/yyyy, hh:mm:ss a'}}</td>
                                 <td>
-                                    <button class="btn btn-primary me-2" >Driver</button>
+                                    <button class="btn btn-primary me-2" (click)="showDriverDetails(package.driverId, package._id)">Driver</button>
                                     <app-delete-package [id]="package._id" (onDelete)="getPackages()"></app-delete-package>
                                 </td>
                             </tr>
+                            @if (selectedDriver && selectedPackageId === package._id) {
+                                <tr>
+                                    <td colspan="9">
+                                        <app-driver-details [driver]="selectedDriver"></app-driver-details>
+                                    </td>
+                                </tr>
+                            }
                         }
                         </tbody>
                     </table>
