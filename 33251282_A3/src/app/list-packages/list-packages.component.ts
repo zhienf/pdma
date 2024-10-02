@@ -7,11 +7,12 @@ import { DeletePackageComponent } from '../delete-package/delete-package.compone
 import { DatePipe } from '@angular/common';
 import { Driver } from '../models/driver';
 import { DriverDetailsComponent } from '../driver-details/driver-details.component';
+import { YesNoPipe } from '../pipes/yes-no.pipe';
 
 @Component({
   selector: 'app-list-packages',
   standalone: true,
-  imports: [WeightPipe, DatePipe, DeletePackageComponent, DriverDetailsComponent],
+  imports: [WeightPipe, DatePipe, YesNoPipe, DeletePackageComponent, DriverDetailsComponent],
   templateUrl: './list-packages.component.html',
   styleUrl: './list-packages.component.css'
 })

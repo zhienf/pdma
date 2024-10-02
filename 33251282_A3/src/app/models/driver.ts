@@ -1,3 +1,5 @@
+import { Package } from "./package";
+
 export class Driver {
     _id: string;
     id: string;
@@ -6,7 +8,7 @@ export class Driver {
     licence: string;
     isActive: boolean;
     createdAt: Date;
-    assignedPackages: string[];
+    assignedPackages: Package[];
 
     constructor() {
         this._id = '';

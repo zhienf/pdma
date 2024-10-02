@@ -1,25 +1,31 @@
-<div class="card shadow-sm">
-    <div class="card-header">
-        <h4 class="my-2">Driver Details</h4>
+@if (!driver) {
+    <div class="alert alert-warning">
+        <h4>No driver found.</h4>
     </div>
-    <div class="card-body">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Department</th>
-                    <th scope="col">Licence</th>
-                    <th scope="col">Is Active?</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td scope="row">{{driver.name}}</td>
-                    <td scope="row">{{driver.department}}</td>
-                    <td scope="row">{{driver.licence}}</td>
-                    <td scope="row">{{driver.isActive ? 'Yes' : 'No'}}</td>
-                </tr>
-            </tbody>
-        </table>
+} @else {
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h4 class="my-2">Driver Details</h4>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Department</th>
+                        <th scope="col">Licence</th>
+                        <th scope="col">Is Active?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="row">{{driver.name}}</td>
+                        <td scope="row">{{driver.department}}</td>
+                        <td scope="row">{{driver.licence}}</td>
+                        <td scope="row">{{driver.isActive | yesNo}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+}

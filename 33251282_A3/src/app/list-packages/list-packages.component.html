@@ -5,7 +5,9 @@
         <div class="row row-cols-1 g-3">
             <div class="col">
                 @if (packages.length === 0) {
-                    <h3>No packages at the moment.</h3>
+                    <div class="alert alert-warning">
+                        <h3>No packages at the moment.</h3>
+                    </div>
                 } @else {
                     <table class="table table-hover">
                         <thead>
@@ -30,7 +32,7 @@
                                 <td scope="row">{{package.weight | weight}}</td>
                                 <td scope="row">{{package.destination}}</td>
                                 <td scope="row">{{package.description}}</td>
-                                <td scope="row">{{package.isAllocated ? 'Yes' : 'No'}}</td>
+                                <td scope="row">{{package.isAllocated | yesNo}}</td>
                                 <td scope="row">{{package.driverId ? package.driverId._id : 'Not allocated'}}</td>
                                 <td scope="row">{{package.createdAt | date: 'MM/dd/yyyy, hh:mm:ss a'}}</td>
                                 <td>

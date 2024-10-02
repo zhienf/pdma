@@ -1,1 +1,37 @@
-<p>packages-details works!</p>
+@if (packages.length === 0) {
+    <div class="alert alert-warning">
+        <h4>No packages found.</h4>
+    </div>
+} @else {
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h4 class="my-2">Packages Details</h4>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Weight</th>
+                        <th scope="col">Destination</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Is Allocated?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (package of packages; track $index) {
+                        <tr>
+                            <td scope="row">{{package._id}}</td>
+                            <td scope="row">{{package.title}}</td>
+                            <td scope="row">{{package.weight}}</td>
+                            <td scope="row">{{package.destination}}</td>
+                            <td scope="row">{{package.description}}</td>
+                            <td scope="row">{{package.isAllocated | yesNo}}</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

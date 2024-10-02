@@ -5,7 +5,9 @@
         <div class="row row-cols-1 g-3">
             <div class="col">
                 @if (drivers.length === 0) {
-                    <h3>No drivers at the moment.</h3>
+                    <div class="alert alert-warning">
+                        <h3>No drivers at the moment.</h3>
+                    </div>
                 } @else {
                     <table class="table table-hover">
                         <thead>
@@ -22,21 +24,28 @@
                         </thead>
 
                         <tbody>
-                            @for (driver of drivers; track $index) {
+                        @for (driver of drivers; track $index) {
                             <tr>
                                 <td scope="row">{{driver._id}}</td>
                                 <td scope="row">{{driver.id}}</td>
                                 <td scope="row">{{driver.name | uppercase}}</td>
                                 <td scope="row">{{driver.department}}</td>
                                 <td scope="row">{{driver.licence}}</td>
-                                <td scope="row">{{driver.isActive ? 'Yes' : 'No'}}</td>
+                                <td scope="row">{{driver.isActive | yesNo}}</td>
                                 <td scope="row">{{driver.createdAt | date: 'MM/dd/yyyy, hh:mm:ss a'}}</td>
                                 <td scope="row">
-                                    <button class="btn btn-primary me-2" >Packages</button>
+                                    <button class="btn btn-primary me-2" (click)="showPackagesDetails(driver.assignedPackages, driver._id)">Packages</button>
                                     <app-delete-driver [id]="driver._id" (onDelete)="getDrivers()"></app-delete-driver>
                                 </td>
                             </tr>
-                            }  
+                            @if (selectedPackages && selectedDriverId === driver._id) {
+                                <tr>
+                                    <td colspan="8">
+                                        <app-packages-details [packages]="selectedPackages"></app-packages-details>
+                                    </td>
+                                </tr>
+                            }                            
+                        }  
                         </tbody>
                     </table>
                 }
