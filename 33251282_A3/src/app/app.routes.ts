@@ -13,6 +13,9 @@ import { HomeComponent } from './home/home.component';
 import { SignupComponent } from './signup/signup.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { InvalidDataComponent } from './invalid-data/invalid-data.component';
+import { TranslateDescriptionComponent } from './translate-description/translate-description.component';
+import { TextToSpeechComponent } from './text-to-speech/text-to-speech.component';
+import { GenerativeAiComponent } from './generative-ai/generative-ai.component';
 
 export const routes: Routes = [
     {path:'add-driver', component: AddDriverComponent},
@@ -29,6 +32,9 @@ export const routes: Routes = [
     {path:'home', component: HomeComponent},
     {path:'invalid-data', component: InvalidDataComponent},
     {path:'page-not-found', component: PageNotFoundComponent},
+    {path:'translate-description', component: TranslateDescriptionComponent},
+    {path:'text-to-speech', component: TextToSpeechComponent},
+    {path:'generative-ai', component: GenerativeAiComponent},
     {path:'', redirectTo: '/home', pathMatch: 'full'},
     {path:'**', redirectTo: '/page-not-found'},
 ];

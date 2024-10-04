@@ -4,29 +4,89 @@
  * @author Zhi'En Foo <zfoo0004@student.monash.edu>
  */
 
-/**
- * Express module.
- * @const
- */
+// Import required modules
 const express = require("express");
-
-/**
- * Mongoose module.
- * @const
- */
 const mongoose = require("mongoose");
+const socketio = require('socket.io');
+const http = require('http');
+const fs = require("fs");
 
-/**
- * Mongoose database URL. 
- */
+// Import routers for drivers and packages
+const driversAPIRouter = require("./routers/driversAPI");
+const packagesAPIRouter = require("./routers/packagesAPI");
+
+// Functions for accessing Firestore database
+const { db, signupUser, getUser } = require("./firestoreHelper");
+
+// Imports the Google Cloud client library
+const textToSpeech = require("@google-cloud/text-to-speech"); 
+const textToSpeechClient = new textToSpeech.TextToSpeechClient(); // Creates a client
+
+const translation = require('@google-cloud/translate');
+const translationClient = new translation.v2.Translate(); // Creates a client
+
+const app = express(); // create express app
+const server = http.createServer(app); // create http server
+
+// Create a new socket.io instance attached to the server
+const io = socketio(server, {
+    cors: {
+        origin: '*',
+        methods: ['*'],
+    }
+});
+
+io.on('connection', (socket) => {
+    console.log(`Client with ID ${socket.id} connected.`);
+
+    socket.on("getTranslation", (data) => {
+        console.log(data);
+        translationClient.translate(data.originalText, data.targetLanguage, (err, translation) => {
+            if (err) {
+                console.error("ERROR:", err);
+                return;
+            }
+            console.log(translation);
+            data.translatedText = translation;
+            socket.emit("receiveTranslation", data);
+        });
+    });
+
+    socket.on("getSpeech", async (data) => {
+        console.log(data);
+        const request = {
+            input: { text: data },
+            voice: { languageCode: "en-US", ssmlGender: "NEUTRAL" },
+            audioConfig: { audioEncoding: 'MP3' },
+        };
+
+        const fileName = `${data}.mp3`;
+        const filePath = `../dist/33251282-a3/browser/speech/${fileName}`;
+
+        // Performs the Text-to-Speech request
+        textToSpeechClient.synthesizeSpeech(request, (err, response) => {
+            if (err) {
+            console.error("ERROR:", err);
+            return;
+            }
+        
+            // Write the binary audio content to a file
+            fs.write(filePath, response.audioContent, "binary", err => {
+            if (err) {
+                console.error("ERROR:", err);
+                return;
+            }
+            console.log("Audio content written to file: ", filePath);
+            socket.emit("receiveSpeech", fileName);
+            });
+        });
+    });
+});
+
+// Configure Mongoose
 // const url = "mongodb://10.192.0.3:27017/pdma"; // private IP address of VM hosting MongoDB
 const url = "mongodb://127.0.0.1:27017/pdma";
 
-/**
- * Configure Mongoose.
- * @param {string} url 
- * @returns {string}
- */
 async function connectDB(url) {
    await mongoose.connect(url);
    return ("Connected to Mongoose successfully.");
@@ -37,54 +97,14 @@ connectDB(url)
     .then(console.log)
     .catch((err) => console.log(err));
 
-/**
- * Functions for accessing Firestore database.
- * @const
- */
-const { db, signupUser, getUser } = require("./firestoreHelper");
-
-/**
- * The Express router instance for managing driver-related RESTful API endpoints.
- * @type {Router}
- */
-const driversAPIRouter = require("./routers/driversAPI");
-
-/**
- * The Express router instance for managing package-related RESTful API endpoints.
- * @type {Router}
- */
-const packagesAPIRouter = require("./routers/packagesAPI");
-
-/**
- * Port number to listen on.
- * @const
- */
+// Start the server
 const PORT_NUMBER = 8080;
-
-/**
- * Application instance.
- * @const
- */
-const app = express();
+server.listen(PORT_NUMBER);
 
 const API_URL = "/33251282/Zhi'En/api/v1";
 
-/**
- * Starts the Express server on the specified port.
- * @name listen
- * @function
- * @param {number} port - The port number to listen on
- */
-app.listen(PORT_NUMBER);
-
-/**
- * Middleware to parse JSON data.
- * @name jsonMiddleware
- * @function
- */
-app.use(express.json());
-
-app.use(express.static('./dist/33251282-a3/browser'));
+app.use(express.json()); // parse JSON data
+app.use(express.static('./dist/33251282-a3/browser')); // serve static files
 
 /**
  * Routes for managing drivers API endpoints.

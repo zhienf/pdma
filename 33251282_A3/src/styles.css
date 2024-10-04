@@ -9,7 +9,7 @@ html, body {
   min-height: 100vh; 
 }
 
-app-home, app-list-drivers, app-add-driver, app-delete-driver, app-update-driver, app-list-packages, app-add-package, app-delete-package, app-update-package, app-page-not-found, app-invalid-data, app-statistics, app-login, app-signup {
+app-home, app-list-drivers, app-add-driver, app-delete-driver, app-update-driver, app-list-packages, app-add-package, app-delete-package, app-update-package, app-page-not-found, app-invalid-data, app-statistics, app-login, app-signup, app-translate-description, app-text-to-speech, app-generative-ai {
   flex: 1; 
 }
 
