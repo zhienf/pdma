@@ -45,7 +45,7 @@
                                 <select id="targetLanguage" name="targetLanguage" class="form-control" [(ngModel)]="targetDescription.targetLanguage" required>
                                     <option value="" disabled>Select a language</option>
                                     @for (language of languages; track $index) {
-                                        <option [value]="language">{{language}}</option>
+                                        <option [value]="language">{{getLanguageName(language)}}</option>
                                     }
                                 </select>
                             </div>
@@ -65,7 +65,7 @@
                                             @for (translation of translations; track $index) {
                                                 <tr>
                                                     <td scope="row">{{translation.originalText}}</td>
-                                                    <td scope="row">{{translation.targetLanguage}}</td>
+                                                    <td scope="row">{{getLanguageName(translation.targetLanguage)}}</td>
                                                     <td scope="row">{{translation.translatedText}}</td>
                                                 </tr>
                                             }

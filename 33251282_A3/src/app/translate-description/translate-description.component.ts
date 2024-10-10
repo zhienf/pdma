@@ -21,6 +21,13 @@ export class TranslateDescriptionComponent {
   translations: Translation[] = [];
   targetDescription: Translation = new Translation();
 
+  // Mapping of language codes to full names
+  languageNames: { [key: string]: string } = {
+    "fr": "French",
+    "ru": "Russian",
+    "ja": "Japanese"
+  };
+
   constructor(private db: DatabaseService) {
     this.socket = io("ws://localhost:8080");
   }
@@ -36,6 +43,10 @@ export class TranslateDescriptionComponent {
     this.db.getPackages().subscribe((data: any) => {
       this.packages = data;
     });
+  }
+
+  getLanguageName(code: string): string {
+    return this.languageNames[code] || code;
   }
 
   getTranslation(description: string) {

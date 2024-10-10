@@ -84,8 +84,8 @@ io.on('connection', (socket) => {
 });
 
 // Configure Mongoose
-const url = "mongodb://10.192.0.3:27017/pdma"; // private IP address of VM hosting MongoDB
-// const url = "mongodb://127.0.0.1:27017/pdma";
+// const url = "mongodb://10.192.0.3:27017/pdma"; // private IP address of VM hosting MongoDB
+const url = "mongodb://127.0.0.1:27017/pdma";
 
 async function connectDB(url) {
    await mongoose.connect(url);
