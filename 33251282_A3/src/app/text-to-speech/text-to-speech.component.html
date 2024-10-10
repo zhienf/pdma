@@ -1,1 +1,62 @@
-<p>text-to-speech works!</p>
+<div class="album py-5">
+    <div class="container">        
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h3 class="my-2">Driver's Licence Text-to-Speech</h3>
+            </div>
+            <div class="card-body">
+                <div class="row row-cols-1 row-cols-sm-2 g-3 my-3">
+                    <div class="col w-100">
+                        
+                        @if (drivers.length === 0) {
+                            <div class="alert alert-warning">
+                                <h3>No drivers at the moment.</h3>
+                            </div>
+                        } @else {
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Driver ID</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Department</th>
+                                        <th scope="col">Licence</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+            
+                                <tbody>
+                                @for (driver of drivers; track $index) {
+                                    <tr>
+                                        <td scope="row">{{driver.id}}</td>
+                                        <td scope="row">{{driver.name}}</td>
+                                        <td scope="row">{{driver.department}}</td>
+                                        <td scope="row">{{driver.licence}}</td>
+                                        <td>
+                                            <button class="btn btn-primary me-2" (click)="getTextToSpeech(driver.licence)">Text to Speech</button>
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                            <div class="mb-3">
+                                <label for="targetText" class="form-label">Text to Convert</label>
+                                <textarea id="targetText" class="form-control" [(ngModel)]="targetText" rows="3" readonly></textarea>
+                            </div>
+                            <div class="row row-cols-1 row-cols-sm-2 g-3 my-3">
+                                <div class="col w-100">
+                                    @if (textSpeech !== '') {
+                                        <p id="textSpeech">Converted Speech:</p>
+                                        <audio controls aria-labelledby="textSpeech">
+                                            <source [src]="textSpeech" type="audio/mpeg">
+                                            Your browser does not support the audio element.
+                                        </audio>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

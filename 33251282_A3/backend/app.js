@@ -10,6 +10,7 @@ const mongoose = require("mongoose");
 const socketio = require('socket.io');
 const http = require('http');
 const fs = require("fs");
+const path = require("path");
 
 // Import routers for drivers and packages
 const driversAPIRouter = require("./routers/driversAPI");
@@ -61,7 +62,12 @@ io.on('connection', (socket) => {
         };
 
         const fileName = `${data}.mp3`;
-        const filePath = `../dist/33251282-a3/browser/speech/${fileName}`;
+        const filePath = path.resolve(__dirname, '../dist/33251282-a3/browser/speech', fileName);
+
+        // create folder for the file
+        if (!fs.existsSync(path.resolve(__dirname, '../dist/33251282-a3/browser/speech'))) { 
+            fs.mkdirSync(path.resolve(__dirname, '../dist/33251282-a3/browser/speech'));
+        }
 
         // Performs the Text-to-Speech request
         textToSpeechClient.synthesizeSpeech(request, (err, response) => {
@@ -71,7 +77,7 @@ io.on('connection', (socket) => {
             }
         
             // Write the binary audio content to a file
-            fs.write(filePath, response.audioContent, "binary", err => {
+            fs.writeFile(filePath, response.audioContent, "binary", err => {
             if (err) {
                 console.error("ERROR:", err);
                 return;
