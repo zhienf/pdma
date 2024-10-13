@@ -20,7 +20,7 @@ export class UpdateDriverComponent {
 
   updateDriver() {
     if (!this.driver._id || !this.driver.licence || !this.driver.department) {
-      alert('Please fill in all the fields.');
+      this.router.navigate(['invalid-data']);
       return;
     }
     

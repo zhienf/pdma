@@ -31,7 +31,7 @@ export class AddPackageComponent {
 
   addPackage() {
     if (!this.package.title || !this.package.weight || !this.package.destination || this.package.isAllocated === undefined || !this.package.driverId) {
-      alert('Please fill in all the required fields.');
+      this.router.navigate(['invalid-data']);
       return;
     }
 

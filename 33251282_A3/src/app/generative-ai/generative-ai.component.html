@@ -1,1 +1,57 @@
-<p>generative-ai works!</p>
+<div class="album py-5">
+    <div class="container">        
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h3 class="my-2">Distance Calculator</h3>
+            </div>
+            <div class="card-body">
+                <div class="row row-cols-1 row-cols-sm-2 g-3 my-3">
+                    <div class="col w-100">
+                        
+                        @if (packages.length === 0) {
+                            <div class="alert alert-warning">
+                                <h3>No packages at the moment.</h3>
+                            </div>
+                        } @else {
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Title</th>
+                                        <th scope="col">Weight</th>
+                                        <th scope="col">Destination</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+            
+                                <tbody>
+                                @for (package of packages; track $index) {
+                                    <tr>
+                                        <td scope="row">{{package._id}}</td>
+                                        <td scope="row">{{package.title}}</td>
+                                        <td scope="row">{{package.weight | weight}}</td>
+                                        <td scope="row">{{package.destination}}</td>
+                                        <td scope="row">{{package.description}}</td>
+                                        <td>
+                                            <button class="btn btn-primary me-2" (click)="getDistance(package.destination)">Distance</button>
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (targetDestination !== '' && calculatedDistance !== '') {
+            <div class="card shadow-sm mt-3">
+                <div class="card-body">
+                    <h5>Distance between Melbourne and {{targetDestination}} in kilometers:</h5>
+                    <p>{{calculatedDistance}}</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -27,6 +27,21 @@ const textToSpeechClient = new textToSpeech.TextToSpeechClient(); // Creates a c
 const translation = require('@google-cloud/translate');
 const translationClient = new translation.v2.Translate(); // Creates a client
 
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const gemini_api_key = "AIzaSyB6vnwdCVCLGV6bog8fOKLxHiwQbUBGh1Y";
+const googleAI = new GoogleGenerativeAI(gemini_api_key);
+const geminiConfig = {
+    temperature: 0.9,
+    topP: 1,
+    topK: 1,
+    maxOutputTokens: 4096,
+};
+const geminiModel = googleAI.getGenerativeModel({
+    model: "gemini-pro",
+    geminiConfig,
+});
+
+// Create an Express app
 const app = express(); // create express app
 const server = http.createServer(app); // create http server
 
@@ -87,6 +102,14 @@ io.on('connection', (socket) => {
             socket.emit("receiveSpeech", fileName);
             });
         });
+    });
+
+    socket.on("getDistance", async (data) => {
+        console.log(data);
+        const result = await geminiModel.generateContent(`Calculate the distance between Melbourne and ${data} in kilometers.`);
+        const responseText = result.response.candidates[0].content.parts[0].text;
+        console.log(responseText);
+        socket.emit("receiveDistance", responseText);
     });
 });
 

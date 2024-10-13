@@ -38,25 +38,26 @@
                                 }
                                 </tbody>
                             </table>
-                            <div class="mb-3">
-                                <label for="targetText" class="form-label">Text to Convert</label>
-                                <textarea id="targetText" class="form-control" [(ngModel)]="targetText" rows="3" readonly></textarea>
-                            </div>
-                            <div class="row row-cols-1 row-cols-sm-2 g-3 my-3">
-                                <div class="col w-100">
-                                    @if (textSpeech !== '') {
-                                        <p id="textSpeech">Converted Speech:</p>
-                                        <audio controls aria-labelledby="textSpeech">
-                                            <source [src]="textSpeech" type="audio/mpeg">
-                                            Your browser does not support the audio element.
-                                        </audio>
-                                    }
-                                </div>
-                            </div>
                         }
                     </div>
                 </div>
             </div>
         </div>
+        <div class="card shadow-sm mt-3">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="targetText" class="form-label">Text to Convert</label>
+                    <textarea id="targetText" class="form-control" [(ngModel)]="targetText" rows="1" readonly></textarea>
+                </div>
+                <div>
+                    @if (textSpeech !== '') {
+                        <p id="textSpeech">Converted Speech:</p>
+                        <audio controls aria-labelledby="textSpeech">
+                            <source [src]="textSpeech" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    }
+                </div>
+            </div>
     </div>
 </div>

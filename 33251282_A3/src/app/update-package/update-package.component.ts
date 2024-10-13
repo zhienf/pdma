@@ -19,7 +19,7 @@ export class UpdatePackageComponent {
 
   updatePackage() {
     if (!this.package._id || !this.package.destination) {
-      alert('Please fill in all the fields.');
+      this.router.navigate(['invalid-data']);
       return;
     }
     

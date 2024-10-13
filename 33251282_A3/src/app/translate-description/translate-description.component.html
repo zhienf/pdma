@@ -40,40 +40,44 @@
                                 }
                                 </tbody>
                             </table>
-                            <div class="mb-3">
-                                <label for="targetLanguage" class="form-label">Target Language</label>
-                                <select id="targetLanguage" name="targetLanguage" class="form-control" [(ngModel)]="targetDescription.targetLanguage" required>
-                                    <option value="" disabled>Select a language</option>
-                                    @for (language of languages; track $index) {
-                                        <option [value]="language">{{getLanguageName(language)}}</option>
-                                    }
-                                </select>
-                            </div>
-                            <div class="row row-cols-1 row-cols-sm-2 g-3 my-3">
-                                <div class="col w-100">
-                                    @if (translations.length > 0) {
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">Description</th>
-                                                    <th scope="col">Target Language</th>
-                                                    <th scope="col">Translation</th>
-                                                </tr>
-                                            </thead>
-                        
-                                            <tbody>
-                                            @for (translation of translations; track $index) {
-                                                <tr>
-                                                    <td scope="row">{{translation.originalText}}</td>
-                                                    <td scope="row">{{getLanguageName(translation.targetLanguage)}}</td>
-                                                    <td scope="row">{{translation.translatedText}}</td>
-                                                </tr>
-                                            }
-                                            </tbody>
-                                        </table>
-                                    }
-                                </div>
-                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow-sm mt-3">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="targetLanguage" class="form-label">Target Language</label>
+                    <select id="targetLanguage" name="targetLanguage" class="form-control" [(ngModel)]="targetDescription.targetLanguage" required>
+                        <option value="" disabled>Select a language</option>
+                        @for (language of languages; track $index) {
+                            <option [value]="language">{{getLanguageName(language)}}</option>
+                        }
+                    </select>
+                </div>
+                <div class="row row-cols-1 row-cols-sm-2 g-3 my-3">
+                    <div class="col w-100">
+                        @if (translations.length > 0) {
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Target Language</th>
+                                        <th scope="col">Translation</th>
+                                    </tr>
+                                </thead>
+            
+                                <tbody>
+                                @for (translation of translations; track $index) {
+                                    <tr>
+                                        <td scope="row">{{translation.originalText}}</td>
+                                        <td scope="row">{{getLanguageName(translation.targetLanguage)}}</td>
+                                        <td scope="row">{{translation.translatedText}}</td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
                         }
                     </div>
                 </div>
