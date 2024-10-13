@@ -16,25 +16,26 @@ import { InvalidDataComponent } from './invalid-data/invalid-data.component';
 import { TranslateDescriptionComponent } from './translate-description/translate-description.component';
 import { TextToSpeechComponent } from './text-to-speech/text-to-speech.component';
 import { GenerativeAiComponent } from './generative-ai/generative-ai.component';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
-    {path:'add-driver', component: AddDriverComponent},
-    {path:'list-drivers', component: ListDriversComponent},
-    {path:'delete-driver', component: DeleteDriverComponent},
-    {path:'update-driver', component: UpdateDriverComponent},
-    {path:'add-package', component: AddPackageComponent},
-    {path:'list-packages', component: ListPackagesComponent},
-    {path:'delete-package', component: DeletePackageComponent},
-    {path:'update-package', component: UpdatePackageComponent},
-    {path:'statistics', component: StatisticsComponent},
+    {path:'add-driver', component: AddDriverComponent, canActivate: [authGuard]},
+    {path:'list-drivers', component: ListDriversComponent, canActivate: [authGuard]},
+    {path:'delete-driver', component: DeleteDriverComponent, canActivate: [authGuard]},
+    {path:'update-driver', component: UpdateDriverComponent, canActivate: [authGuard]},
+    {path:'add-package', component: AddPackageComponent, canActivate: [authGuard]},
+    {path:'list-packages', component: ListPackagesComponent, canActivate: [authGuard]},
+    {path:'delete-package', component: DeletePackageComponent, canActivate: [authGuard]},
+    {path:'update-package', component: UpdatePackageComponent, canActivate: [authGuard]},
+    {path:'statistics', component: StatisticsComponent, canActivate: [authGuard]},
     {path:'login', component: LoginComponent},
     {path:'signup', component: SignupComponent},
-    {path:'home', component: HomeComponent},
+    {path:'home', component: HomeComponent, canActivate: [authGuard]},
     {path:'invalid-data', component: InvalidDataComponent},
-    {path:'page-not-found', component: PageNotFoundComponent},
-    {path:'translate-description', component: TranslateDescriptionComponent},
-    {path:'text-to-speech', component: TextToSpeechComponent},
-    {path:'generative-ai', component: GenerativeAiComponent},
+    {path:'page-not-found', component: PageNotFoundComponent, canActivate: [authGuard]},
+    {path:'translate-description', component: TranslateDescriptionComponent, canActivate: [authGuard]},
+    {path:'text-to-speech', component: TextToSpeechComponent, canActivate: [authGuard]},
+    {path:'generative-ai', component: GenerativeAiComponent, canActivate: [authGuard]},
     {path:'', redirectTo: '/home', pathMatch: 'full'},
     {path:'**', redirectTo: '/page-not-found'},
 ];

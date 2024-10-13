@@ -11,6 +11,7 @@ const socketio = require('socket.io');
 const http = require('http');
 const fs = require("fs");
 const path = require("path");
+const session = require('express-session');
 
 // Import routers for drivers and packages
 const driversAPIRouter = require("./routers/driversAPI");
@@ -111,6 +112,11 @@ const API_URL = "/33251282/Zhi'En/api/v1";
 
 app.use(express.json()); // parse JSON data
 app.use(express.static('./dist/33251282-a3/browser')); // serve static files
+app.use(session({
+    secret: 'fit2095-a3', // secret key for session encryption
+    resave: false,           // session not saved if unmodified
+    saveUninitialized: false // session not created until something is stored
+}));
 
 /**
  * Routes for managing drivers API endpoints.
@@ -169,6 +175,7 @@ app.post(API_URL + "/login", async function(req, res) {
                 status: 'Invalid username or password'
             });
         } else {
+            req.session.isAuthenticated = true;
             res.status(200).json({
                 status: 'Login successfully'
             });
@@ -199,8 +206,14 @@ app.post(API_URL + "/signup", async function(req, res) {
         let username = req.body.username;
         let password = req.body.password;
         let confirmPassword = req.body.confirmPassword;
-    
-        if (confirmPassword != password) {
+
+        let userFound = await getUser(username, password);
+
+        if (userFound) {
+            res.status(400).json({
+                status: 'User already exists'
+            });
+        } else if (confirmPassword != password) {
             res.status(400).json({
                 status: 'Passwords do not match'
             });
@@ -214,5 +227,13 @@ app.post(API_URL + "/signup", async function(req, res) {
         res.status(500).json({
             status: "An error occurred"
         });
+    }
+});
+
+app.get(API_URL + '/auth-check', (req, res) => {
+    if (req.session.isAuthenticated) {
+      res.status(200).json({ authenticated: true });
+    } else {
+      res.status(200).json({ authenticated: false });
     }
 });

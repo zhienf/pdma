@@ -18,15 +18,19 @@ export class SignupComponent {
   constructor(private db: DatabaseService, private router: Router) {}
 
   signupUser() {
-    this.db.signupUser(this.user).subscribe({
-      next: (value: any) => {
-        console.log(value);
-        this.router.navigate(['login']);
-      },
-      error: (err: any) => {
-        console.error(err);
-        this.router.navigate(['invalid-data']);
-      }
-    })
+    if (this.user.username && this.user.password && this.user.confirmPassword) {
+      this.db.signupUser(this.user).subscribe({
+        next: (value: any) => {
+          console.log(value);
+          this.router.navigate(['login']);
+        },
+        error: (err: any) => {
+          console.error(err);
+          this.router.navigate(['invalid-data']);
+        }
+      });
+    } else {
+      this.router.navigate(['invalid-data']);
+    }
   }
 }

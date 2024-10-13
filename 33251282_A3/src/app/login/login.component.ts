@@ -18,20 +18,24 @@ export class LoginComponent {
   constructor(private db: DatabaseService, private router: Router) {}
 
   loginUser() {
-    const userData = {
-      username: this.user.username,
-      password: this.user.password
-    };
-
-    this.db.loginUser(userData).subscribe({
-      next: (value: any) => {
-        console.log(value);
-        this.router.navigate(['home']);
-      },
-      error: (err: any) => {
-        console.error(err);
-        this.router.navigate(['invalid-data']);
-      }
-    })
+    if (this.user.username && this.user.password) {
+      const userData = {
+        username: this.user.username,
+        password: this.user.password
+      };
+    
+      this.db.loginUser(userData).subscribe({
+        next: (value: any) => {
+          console.log(value);
+          this.router.navigate(['home']);
+        },
+        error: (err: any) => {
+          console.error(err);
+          this.router.navigate(['invalid-data']);
+        }
+      })
+    } else {
+      this.router.navigate(['invalid-data']);
+    }
   }
 }

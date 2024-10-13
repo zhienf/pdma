@@ -57,4 +57,8 @@ export class DatabaseService {
   getStats() {
     return this.http.get(API_URL + '/stats');
   }
+
+  isUserAuthenticated() {
+    return this.http.get(API_URL + '/auth-check');
+  }
 }
