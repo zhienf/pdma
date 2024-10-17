@@ -29,7 +29,8 @@ export class TranslateDescriptionComponent {
   };
 
   constructor(private db: DatabaseService) {
-    this.socket = io("ws://localhost:8080");
+    // this.socket = io("ws://localhost:8080");
+    this.socket = io("/");
   }
 
   ngOnInit() { 

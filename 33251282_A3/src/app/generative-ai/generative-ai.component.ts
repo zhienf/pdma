@@ -19,7 +19,8 @@ export class GenerativeAiComponent {
   calculatedDistance: string = "";
 
   constructor(private db: DatabaseService) {
-    this.socket = io("ws://localhost:8080");
+    // this.socket = io("ws://localhost:8080");
+    this.socket = io("/");
   }
 
   ngOnInit() { 
